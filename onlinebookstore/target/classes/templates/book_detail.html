@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div>
+    <h1 th:text="${book.title}">Book Title</h1>
+    <div class="book-detail">
+<img th:src="@{'/images/' + ${book.coverImageUrl}}" alt="Book Cover" style="max-width:300px;"/>
+        <p><strong>Author:</strong> <span th:text="${book.author}">Author</span></p>
+        <p><strong>Description:</strong></p>
+        <p th:text="${book.description}">Description</p>
+        <p><strong>Price:</strong> $<span th:text="${book.price}">0.00</span></p>
+        <p><strong>Stock:</strong> <span th:text="${book.stock}">0</span></p>
+        <form th:action="@{'/cart/add/' + ${book.id}}" method="post">
+            <button type="submit" th:disabled="${book.stock == 0}">Add to Cart</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

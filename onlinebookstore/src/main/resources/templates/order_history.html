@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div>
+    <h1>Your Order History</h1>
+    <div th:if="${#lists.isEmpty(orders)}">
+        <p>You have no past orders.</p>
+    </div>
+    <div th:each="order : ${orders}">
+        <h3>Order #<span th:text="${order.id}">1</span> - <span th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}">Date</span></h3>
+        <p><strong>Total Price:</strong> $<span th:text="${order.totalPrice}">0.00</span></p>
+        <p><strong>Shipping To:</strong> <span th:text="${order.fullName}">Name</span>, <span th:text="${order.fullAddress}">Address</span>, <span th:text="${order.contactNumber}">Contact</span></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${order.orderItems}">
+                    <td th:text="${item.book.title}">Book Title</td>
+                    <td th:text="${item.quantity}">1</td>
+                    <td th:text="'$' + ${item.price}">Price</td>
+                    <td th:text="'$' + ${item.price * item.quantity}">Subtotal</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr/>
+    </div>
+</div>
+</body>
+</html>

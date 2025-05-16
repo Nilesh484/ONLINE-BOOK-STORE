@@ -1,0 +1,21 @@
+<header th:fragment="header">
+    <div class="header-container">
+        <div class="site-title">
+            <a th:href="@{/home}">Online Bookstore</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><a th:href="@{/cart}">Cart</a></li>
+                <li><a th:href="@{/orderHistory}">Order History</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+                <li>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}"><a th:href="@{/admin/dashboard}">Admin Dashboard</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div>
+    <h1>Your Shopping Cart</h1>
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+    <form th:action="@{/cart/placeOrder}" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${cartItems}">
+                    <td th:text="${item.book.title}">Book Title</td>
+                    <td th:text="'$' + ${item.price}">Price</td>
+                    <td>
+                        <form th:action="@{'/cart/update/' + ${item.book.id}}" method="post" style="display:inline;">
+                            <input type="hidden" name="quantity" th:value="${item.quantity - 1}" />
+                            <button type="submit" th:disabled="${item.quantity <= 1}">-</button>
+                        </form>
+                        <span th:text="${item.quantity}">1</span>
+                        <form th:action="@{'/cart/update/' + ${item.book.id}}" method="post" style="display:inline;">
+                            <input type="hidden" name="quantity" th:value="${item.quantity + 1}" />
+                            <button type="submit">+</button>
+                        </form>
+                    </td>
+                    <td th:text="'$' + ${item.price * item.quantity}">Subtotal</td>
+                    <td>
+                        <form th:action="@{'/cart/remove/' + ${item.book.id}}" method="post" style="display:inline;">
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>Total: </strong><span th:text="'$' + ${total}">0.00</span></p>
+        <h3>Shipping Information</h3>
+        <div class="form-box">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required />
+            </div>
+            <div class="form-group">
+                <label for="contactNumber">Contact Number</label>
+                <input type="text" id="contactNumber" name="contactNumber" required />
+            </div>
+            <div class="form-group">
+                <label for="fullAddress">Full Address</label>
+                <textarea id="fullAddress" name="fullAddress" rows="3" required></textarea>
+            </div>
+            <button type="submit">Place Order</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

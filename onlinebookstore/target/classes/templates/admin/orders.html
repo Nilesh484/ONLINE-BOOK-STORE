@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Admin Orders</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" />
+</head>
+<body>
+<h1>All Orders</h1>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Full Name</th>
+            <th>Contact Number</th>
+            <th>Full Address</th>
+            <th>Order Date</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}">1</td>
+            <td th:text="${order.fullName}">Name</td>
+            <td th:text="${order.contactNumber}">Contact</td>
+            <td th:text="${order.fullAddress}">Address</td>
+            <td th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}">Date</td>
+            <td th:text="${order.totalPrice}">0.00</td>
+        </tr>
+    </tbody>
+</table>
+<a th:href="@{/admin/dashboard}">Back to Dashboard</a>
+</body>
+</html>

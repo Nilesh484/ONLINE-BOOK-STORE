@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div>
+    <h1>Welcome to the Online Bookstore</h1>
+    <form th:action="@{/search}" method="get">
+        <input type="text" name="keyword" placeholder="Search books..." required />
+        <button type="submit">Search</button>
+    </form>
+    <div class="book-list">
+        <div th:each="book : ${books}" class="book-card">
+<img th:src="@{'/images/' + ${book.coverImageUrl}}" alt="Book Cover" />
+            <h3 th:text="${book.title}">Book Title</h3>
+            <p th:text="${book.author}">Author</p>
+            <p class="price" th:text="'$' + ${book.price}">Price</p>
+            <a th:href="@{'/books/' + ${book.id}}" class="button">View Details</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
